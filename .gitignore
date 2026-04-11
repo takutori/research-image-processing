@@ -12,6 +12,7 @@ __pycache__/
 htmlcov/
 
 .ipynb_checkpoints/
+.jupyter/
 
 .DS_Store
 Thumbs.db
@@ -19,6 +20,8 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+*.log
 
 data/
 datasets/
@@ -39,3 +42,5 @@ mlruns/
 *.trt
 
 docker-data/
+
+.env

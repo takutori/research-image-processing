@@ -22,6 +22,14 @@ TORCH_VARIANT=cpu docker compose build
 TORCH_VARIANT=cpu docker compose up -d
 ```
 
+データセット保存先は repo 外のホストディレクトリを使います。起動前に `.env` を用意してください。
+
+```bash
+cp .env.example .env
+```
+
+`.env` の `HOST_DATA_DIR` を自分の環境に合わせて更新します。
+
 ### コンテナに入る
 
 ```bash
@@ -35,6 +43,59 @@ docker compose exec workspace uv run jupyter lab --ip=0.0.0.0 --port=8888 --no-b
 ```
 
 ブラウザから `http://localhost:8888` を開きます。
+
+### VS Code から notebook を使う
+
+VS Code 上で `.ipynb` を開きつつ、実行環境だけ Docker コンテナ内 Jupyter に向けることもできます。
+
+1. コンテナを起動する
+2. コンテナ内で Jupyter Lab を起動する
+3. 起動ログに出る `http://localhost:8888/?token=...` の URL を控える
+4. VS Code で notebook を開く
+5. コマンドパレットで `Jupyter: Select Notebook Kernel` を開く
+6. `Existing Jupyter Server` を選ぶ
+7. 上の token 付き URL を入力する
+8. コンテナ側の kernel を選ぶ
+
+この接続で `torch.cuda.is_available()` が `True` なら、VS Code 上の notebook からコンテナ内 GPU 環境を使えています。
+
+### データ配置
+
+データセット本体は Git 管理せず、repo 外のホストディレクトリを `/workspace/data` に mount します。
+
+- ホスト側: `HOST_DATA_DIR`
+- コンテナ側: `/workspace/data`
+- データ操作スクリプト: `src/manage_datasets/download_<dataset>.py`, `src/manage_datasets/delete_dataset.py`
+
+例えば `HOST_DATA_DIR` の中では、以下のようにデータセットごとにフォルダを切って管理します。
+
+```text
+research-image-processing-data/
+  coco/
+  oxford_iiit_pet/
+  penn_fudan_pedestrian/
+  mpii_human_pose/
+```
+
+COCO 2017 全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_coco.py
+```
+
+必要な split だけ取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_coco.py --parts train annotations
+uv run python src/manage_datasets/download_coco.py --parts val annotations
+uv run python src/manage_datasets/download_coco.py --parts test image_info_test
+```
+
+データセットを削除する場合:
+
+```bash
+uv run python src/manage_datasets/delete_dataset.py
+```
 
 ## 依存関係
 

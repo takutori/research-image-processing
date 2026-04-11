@@ -16,6 +16,7 @@ services:
       - "8888:8888"
     volumes:
       - .:/workspace
+      - ${HOST_DATA_DIR:?HOST_DATA_DIR must point to a host directory for datasets}:/workspace/data
       - uv-cache:/root/.cache/uv
       - venv-cpu:/workspace/.venv
     command: bash -lc "uv sync && if [ \"$${TORCH_VARIANT}\" = \"gpu\" ]; then uv pip install --python /workspace/.venv/bin/python --index-url https://download.pytorch.org/whl/cu124 torch==2.6.0 torchvision==0.21.0; else uv pip install --python /workspace/.venv/bin/python --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchvision==0.21.0; fi && sleep infinity"
