@@ -1,0 +1,13 @@
+services:
+  workspace:
+    gpus: all
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      TORCH_VARIANT: gpu
+      UV_NO_SYNC: "1"
+    volumes:
+      - venv-gpu:/workspace/.venv
+
+volumes:
+  venv-gpu:
