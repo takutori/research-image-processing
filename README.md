@@ -39,7 +39,7 @@ docker compose exec workspace bash
 ### ノートブックを起動する
 
 ```bash
-docker compose exec workspace uv run jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+uv run jupyter lab --ip=0.0.0.0 --port=8888 --allow-root
 ```
 
 ブラウザから `http://localhost:8888` を開きます。
@@ -65,37 +65,8 @@ VS Code 上で `.ipynb` を開きつつ、実行環境だけ Docker コンテナ
 
 - ホスト側: `HOST_DATA_DIR`
 - コンテナ側: `/workspace/data`
-- データ操作スクリプト: `src/manage_datasets/download_<dataset>.py`, `src/manage_datasets/delete_dataset.py`
 
-例えば `HOST_DATA_DIR` の中では、以下のようにデータセットごとにフォルダを切って管理します。
-
-```text
-research-image-processing-data/
-  coco/
-  oxford_iiit_pet/
-  penn_fudan_pedestrian/
-  mpii_human_pose/
-```
-
-COCO 2017 全量を取得する場合:
-
-```bash
-uv run python src/manage_datasets/download_coco.py
-```
-
-必要な split だけ取得する場合:
-
-```bash
-uv run python src/manage_datasets/download_coco.py --parts train annotations
-uv run python src/manage_datasets/download_coco.py --parts val annotations
-uv run python src/manage_datasets/download_coco.py --parts test image_info_test
-```
-
-データセットを削除する場合:
-
-```bash
-uv run python src/manage_datasets/delete_dataset.py
-```
+データセットのダウンロードと削除方法は [docs/setup/download_dataset.md](/home/taichimain/workspace/develop_research/research_image_processing/docs/setup/download_dataset.md) にまとめています。
 
 ## 依存関係
 

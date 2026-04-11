@@ -11,27 +11,27 @@ from pathlib import Path
 COCO_DOWNLOADS = {
     "train": {
         "filename": "train2017.zip",
-        "url": "https://images.cocodataset.org/zips/train2017.zip",
+        "url": "http://images.cocodataset.org/zips/train2017.zip",
         "expected_paths": ["train2017"],
     },
     "val": {
         "filename": "val2017.zip",
-        "url": "https://images.cocodataset.org/zips/val2017.zip",
+        "url": "http://images.cocodataset.org/zips/val2017.zip",
         "expected_paths": ["val2017"],
     },
     "test": {
         "filename": "test2017.zip",
-        "url": "https://images.cocodataset.org/zips/test2017.zip",
+        "url": "http://images.cocodataset.org/zips/test2017.zip",
         "expected_paths": ["test2017"],
     },
     "annotations": {
         "filename": "annotations_trainval2017.zip",
-        "url": "https://images.cocodataset.org/annotations/annotations_trainval2017.zip",
+        "url": "http://images.cocodataset.org/annotations/annotations_trainval2017.zip",
         "expected_paths": ["annotations"],
     },
     "image_info_test": {
         "filename": "image_info_test2017.zip",
-        "url": "https://images.cocodataset.org/annotations/image_info_test2017.zip",
+        "url": "http://images.cocodataset.org/annotations/image_info_test2017.zip",
         "expected_paths": ["annotations/image_info_test2017.json"],
     },
 }
