@@ -1,0 +1,18 @@
+experiment_name: oxford_pet_fewshot_smoke
+model_name: microsoft/Florence-2-base-ft
+dataset_root: /workspace/data/oxford_iiit_pet
+output_dir: /workspace/checkpoints/classification/florence2/oxford_pet_fewshot_smoke
+
+fewshot:
+  shots_per_class: 1
+  random_state: 42
+
+train:
+  batch_size: 1
+  num_workers: 0
+  num_epochs: 1
+  learning_rate: 0.00005
+  weight_decay: 0.0001
+  valid_size: 0.2
+  random_state: 42
+  use_amp: true

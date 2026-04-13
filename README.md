@@ -68,6 +68,10 @@ VS Code 上で `.ipynb` を開きつつ、実行環境だけ Docker コンテナ
 
 データセットのダウンロードと削除方法は [docs/setup/download_dataset.md](/home/taichimain/workspace/develop_research/research_image_processing/docs/setup/download_dataset.md) にまとめています。
 
+### 学習 / テスト
+
+分類モデルの train / test 実行方法は [docs/train_test/classification.md](/home/taichimain/workspace/develop_research/research_image_processing/docs/train_test/classification.md) にまとめています。
+
 ## 依存関係
 
 - Python 3.11

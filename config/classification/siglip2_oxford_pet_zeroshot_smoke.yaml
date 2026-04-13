@@ -1,0 +1,14 @@
+experiment_name: oxford_pet_zeroshot_smoke
+model_name: google/siglip2-base-patch16-224
+dataset_root: /workspace/data/oxford_iiit_pet
+output_dir: /workspace/checkpoints/classification/siglip2/oxford_pet_zeroshot_smoke
+
+split:
+  valid_size: 0.2
+  random_state: 42
+
+eval:
+  batch_size: 4
+  num_workers: 0
+
+prompt_template: "a photo of a {label}"
