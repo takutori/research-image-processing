@@ -19,6 +19,29 @@ research-image-processing-data/
   mpii_human_pose/
 ```
 
+## Oxford-IIIT Pet
+
+画像分類の最初の練習用としては、COCO より `Oxford-IIIT Pet` の方が扱いやすいです。
+
+- 画像分類に素直な構造
+- 品種ラベルがある
+- セグメンテーション用 annotation も含まれる
+
+全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_oxford_iiit_pet.py
+```
+
+必要な部分だけ取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_oxford_iiit_pet.py --parts images
+```
+```bash
+uv run python src/manage_datasets/download_oxford_iiit_pet.py --parts annotations
+```
+
 ## COCO 2017
 
 全量を取得する場合:

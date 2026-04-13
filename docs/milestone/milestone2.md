@@ -14,6 +14,9 @@
 - 実案件では十分な画像とアノテーションが最初からそろっていることは少ない
 - そのため supervised 学習だけでなく、zero-shot / few-shot / promptable なモデルも優先的に触る
 - ただし従来の学習ベースモデルも削らずに残し、比較できるようにする
+- このリポジトリでは、実装の主対象は基本的に `frontier` のモデルとする
+- `current` は必要な比較ベースラインとして最小限だけ触る
+- `legacy` は理論理解用とし、原則として実装優先度は下げる
 
 追加で触る前提のライブラリ:
 - `transformers`
@@ -39,19 +42,28 @@ API 系:
 
 主要モデル:
 
-| モデル | 主な位置づけ |
-| --- | --- |
-| ResNet | 学習あり |
-| ConvNeXt | 学習あり |
-| ViT | 学習あり |
-| `timm` の事前学習モデル | 学習あり |
-| CLIP | zero-shot / few-shot |
-| SigLIP | zero-shot / few-shot |
-| BLIP-2 | zero-shot / few-shot |
-| Florence-2 | zero-shot / few-shot |
-| DINOv2 | few-shot 寄り |
-| prototypical networks | few-shot |
-| linear probe / prompt tuning ベースの few-shot 分類 | few-shot |
+| カテゴリ | 世代感 | モデル | 今の見立て |
+| --- | --- | --- | --- |
+| 学習あり | legacy | ResNet | 古典的な基準モデル |
+| 学習あり | current | ConvNeXt | 実務でまだ強い定番 |
+| 学習あり | frontier | ConvNeXt V2 | supervised 側の有力本命 |
+| 学習あり | current | ViT | Transformer 分類の基礎 |
+| 学習あり | frontier | EVA-02 | 学習あり側の最前線候補 |
+| 学習あり | current | `timm` の事前学習モデル | 実装実務の標準入口 |
+| zero-shot / few-shot | current | CLIP | zero-shot の基礎標準 |
+| zero-shot / few-shot | current | OpenCLIP | open 実装の実務本命 |
+| zero-shot / few-shot | current | SigLIP | CLIP 系の強い系譜 |
+| zero-shot / few-shot | frontier | SigLIP 2 | zero-shot 側の最前線候補 |
+| zero-shot / few-shot | current | BLIP-2 | 分類専用ではないが強力 |
+| zero-shot / few-shot | frontier | Florence-2 | 多用途 VLM として有力 |
+| few-shot 寄り | current | DINOv2 | 少量ラベルで強い特徴抽出器 |
+| few-shot | legacy | prototypical networks | few-shot の古典手法 |
+| few-shot 寄り | current | linear probe | 強い backbone の基本比較軸 |
+| few-shot | current | prompt tuning | VLM 適応の基本手段 |
+| few-shot | current | CoOp | CLIP few-shot の定番 |
+| few-shot | current | CoCoOp | unseen class に強い発展形 |
+| few-shot | frontier | Tip-Adapter | training-free 寄りの本命 |
+| few-shot | frontier | Tip-Adapter-F | Tip-Adapter の強化版 |
 
 成果物:
 - 3種類の分類器比較レポート

@@ -1,0 +1,17 @@
+experiment_name: oxford_pet_zeroshot_quick
+model_name: microsoft/Florence-2-base-ft
+dataset_root: /workspace/data/oxford_iiit_pet
+output_dir: /workspace/checkpoints/classification/florence2/oxford_pet_zeroshot_quick
+
+split:
+  valid_size: 0.2
+  random_state: 42
+
+subset:
+  valid_examples: 32
+  test_examples: 32
+
+eval:
+  max_new_tokens: 16
+
+prompt: "What breed of pet is shown in the image? Choose exactly one from this list: {labels}"

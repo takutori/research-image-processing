@@ -1,0 +1,93 @@
+digraph ClassificationLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="画像分類モデルの系譜（時系列試作）", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year1998 [label="1998", shape=plaintext];
+  Year2012 [label="2012", shape=plaintext];
+  Year2014 [label="2014", shape=plaintext];
+  Year2015 [label="2015", shape=plaintext];
+  Year2016 [label="2016", shape=plaintext];
+  Year2017 [label="2017", shape=plaintext];
+  Year2019 [label="2019", shape=plaintext];
+  Year2020 [label="2020", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+  Year2025 [label="2025", shape=plaintext];
+
+  Year1998 -> Year2012 -> Year2014 -> Year2015 -> Year2016 -> Year2017 -> Year2019 -> Year2020 -> Year2021 -> Year2022 -> Year2023 -> Year2025 [style=invis, weight=100];
+
+  { rank=same; Year1998; LeNet; }
+  { rank=same; Year2012; AlexNet; }
+  { rank=same; Year2014; VGG; Inception; }
+  { rank=same; Year2015; ResNet; }
+  { rank=same; Year2016; DenseNet; SENet; }
+  { rank=same; Year2017; ResNeXt; }
+  { rank=same; Year2019; EfficientNet; }
+  { rank=same; Year2020; ViT; RegNet; }
+  { rank=same; Year2021; DeiT; Swin; MAE; CLIP; }
+  { rank=same; Year2022; DINOv2; ConvNeXt; OpenCLIP; SigLIP; CoOp; TipAdapter; }
+  { rank=same; Year2023; ConvNeXtV2; EVA; EVA02; }
+  { rank=same; Year2025; SigLIP2; }
+
+  LeNet [fillcolor="#e2e8f0"];
+  AlexNet [fillcolor="#dbeafe"];
+  VGG [fillcolor="#dbeafe"];
+  Inception [label="GoogLeNet / Inception", fillcolor="#dbeafe"];
+  ResNet [fillcolor="#bfdbfe"];
+  ResNeXt [fillcolor="#dbeafe"];
+  DenseNet [fillcolor="#dbeafe"];
+  SENet [fillcolor="#dbeafe"];
+  EfficientNet [fillcolor="#bfdbfe"];
+  RegNet [fillcolor="#dbeafe"];
+  ConvNeXt [fillcolor="#93c5fd"];
+  ConvNeXtV2 [label="ConvNeXt V2", fillcolor="#60a5fa"];
+
+  ViT [fillcolor="#fecaca"];
+  DeiT [fillcolor="#fee2e2"];
+  Swin [label="Swin Transformer", fillcolor="#fca5a5"];
+  MAE [fillcolor="#fda4af"];
+  EVA [fillcolor="#fb7185"];
+  EVA02 [label="EVA-02", fillcolor="#ef4444"];
+  DINOv2 [fillcolor="#fda4af"];
+
+  CLIP [fillcolor="#bbf7d0"];
+  OpenCLIP [fillcolor="#86efac"];
+  SigLIP [fillcolor="#4ade80"];
+  SigLIP2 [label="SigLIP 2", fillcolor="#22c55e"];
+  CoOp [label="CoOp / CoCoOp", fillcolor="#dcfce7"];
+  TipAdapter [label="Tip-Adapter", fillcolor="#dcfce7"];
+
+  NLPTrans [label="Transformer in NLP", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  { rank=same; Year2020; NLPTrans; }
+
+  LeNet -> AlexNet [label="ImageNet 規模学習を解決"];
+  AlexNet -> VGG [label="深い CNN 設計の整理を解決"];
+  VGG -> Inception [label="計算効率の悪さを解決"];
+  VGG -> ResNet [label="深層化の学習困難を解決"];
+  ResNet -> ResNeXt [label="表現力拡張の効率化を解決"];
+  ResNet -> DenseNet [label="特徴再利用の弱さを解決"];
+  ResNet -> SENet [label="重要チャネルを見分けにくい問題を解決"];
+  ResNet -> EfficientNet [label="depth・width・resolution の非効率な拡張を解決"];
+  ResNet -> RegNet [label="CNN 設計空間の整理不足を解決"];
+  RegNet -> ConvNeXt [label="Transformer 時代に見劣りする CNN 設計を解決"];
+  ConvNeXt -> ConvNeXtV2 [label="自己教師あり事前学習との噛み合いの弱さを解決"];
+
+  NLPTrans -> ViT [label="画像を Transformer で直接扱えない問題を解決"];
+  ViT -> DeiT [label="少データ学習の不安定さを解決"];
+  ViT -> Swin [label="高計算量と階層性の欠如を解決"];
+  ViT -> MAE [label="ラベル依存の強さを解決"];
+  MAE -> EVA [label="大規模事前学習の性能不足を解決"];
+  EVA -> EVA02 [label="学習あり分類性能の頭打ちを解決"];
+  ViT -> DINOv2 [label="汎用表現学習の弱さを解決"];
+
+  ViT -> CLIP [label="画像とテキストを別空間で扱う問題を解決"];
+  CLIP -> OpenCLIP [label="オープン実装の不足を解決"];
+  CLIP -> SigLIP [label="VLM 学習目標の効率不足を解決"];
+  SigLIP -> SigLIP2 [label="zero-shot 分類性能の不足を解決"];
+  CLIP -> CoOp [label="few-shot 適応の弱さを解決"];
+  CLIP -> TipAdapter [label="少量データ適応の重さを解決"];
+}
