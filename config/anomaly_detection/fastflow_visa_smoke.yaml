@@ -1,0 +1,30 @@
+experiment_name: fastflow_visa_smoke
+dataset_root: /workspace/data/visa_smoke
+output_dir: /workspace/checkpoints/anomaly_detection/fastflow/visa_smoke
+tuning_mode: full
+categories: [candle]
+
+model:
+  backbone: resnet18
+  pre_trained: true
+  flow_steps: 8
+  hidden_ratio: 1.0
+
+train:
+  image_size: 224
+  batch_size: 4
+  num_workers: 0
+  max_epochs: 2
+  val_split_ratio: 0.2
+  seed: 42
+
+grid:
+  backbones: [resnet18]
+  image_sizes: [224]
+  flow_steps_list: [8]
+
+optuna:
+  n_trials: 1
+  image_size_candidates: [224]
+  flow_steps_candidates: [8]
+  hidden_ratio_candidates: [1.0]

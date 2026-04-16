@@ -1,0 +1,12 @@
+experiment_name: winclip_zeroshot_visa_smoke
+dataset_root: /workspace/data/visa_smoke
+output_dir: /workspace/checkpoints/anomaly_detection/winclip_zeroshot/visa_smoke
+categories: [candle]
+
+model:
+  scales: [2, 3]
+
+test:
+  batch_size: 4
+  num_workers: 0
+  seed: 42

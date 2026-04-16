@@ -1,0 +1,16 @@
+experiment_name: winclip_fewshot_visa
+dataset_root: /workspace/data/visa
+output_dir: /workspace/checkpoints/anomaly_detection/winclip_fewshot/visa
+
+model:
+  scales: [2, 3]
+  k_shot: 4
+
+train:
+  batch_size: 8
+  num_workers: 0
+  fewshot_split_csv: 2cls_fewshot.csv
+
+test:
+  batch_size: 8
+  num_workers: 0

@@ -1,0 +1,23 @@
+experiment_name: padim_visa_smoke
+dataset_root: /workspace/data/visa_smoke
+output_dir: /workspace/checkpoints/anomaly_detection/padim/visa_smoke
+tuning_mode: grid
+categories: [candle]
+
+model:
+  backbone: resnet18
+  layers: [layer1, layer2, layer3]
+  pre_trained: true
+  n_features: 64
+
+train:
+  image_size: 224
+  batch_size: 4
+  num_workers: 0
+  val_split_ratio: 0.2
+  seed: 42
+
+grid:
+  backbones: [resnet18]
+  image_sizes: [224]
+  n_features_list: [64]

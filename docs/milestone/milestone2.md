@@ -90,17 +90,18 @@ API 系:
 
 主要モデル:
 
-| モデル | 主な位置づけ |
-| --- | --- |
-| PaDiM | 学習あり |
-| PatchCore | 学習あり |
-| FastFlow | 学習あり |
-| STFPM | 学習あり |
-| WinCLIP | zero-shot / few-shot |
-| CLIP-based anomaly detection | zero-shot / few-shot |
-| AnomalyCLIP | zero-shot / few-shot |
-| Rekognition Custom Labels / Azure Custom Vision | 学習あり API |
-| Gemini / GPT-4o など API 系異常検知 | zero-shot API |
+| カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
+| --- | --- | --- | --- | --- |
+| classic backbone-free stats | current | PaDiM | 学習あり | まず置く基準線。正常分布ベースで堅実 |
+| classic memory bank | current | PatchCore | 学習あり | 実務でも強い定番。まず試す価値が高い |
+| classic flow-based | current | FastFlow | 学習あり | anomaly map 比較で押さえたい有力候補 |
+| classic teacher-student | current | STFPM | 学習あり | 局在比較向き。teacher-student 系の代表 |
+| efficient supervised | frontier | EfficientAD | 学習あり | 高速性まで含めて実務で重要な frontier 候補 |
+| zero/few-shot VLM | current | WinCLIP / WinCLIP+ | zero-shot / few-shot | 現実的な zero/few-shot 本命 |
+| zero-shot prompt-adapted VLM | frontier | AdaCLIP | zero-shot | frontier 寄りの有力候補。WinCLIP の次に見る価値が高い |
+| generic CLIP baseline | current | CLIP-based anomaly detection | zero-shot / few-shot | 比較用ベースラインとして有用 |
+| managed API | current | Rekognition Custom Labels / Azure Custom Vision | 学習あり API | 実務 PoC 向け。学習は速いが API 前提 |
+| foundation-model API | frontier | Gemini / GPT-4o など API 系異常検知 | zero-shot API | 調査価値はあるが repo 実装の主対象ではない |
 
 成果物:
 - 正常/異常の判定パイプライン 1本

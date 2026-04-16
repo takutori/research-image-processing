@@ -15,8 +15,29 @@ Docker コンテナ内では `/workspace/data` に mount されます。
 research-image-processing-data/
   coco/
   oxford_iiit_pet/
+  visa/
   penn_fudan_pedestrian/
   mpii_human_pose/
+```
+
+## VisA
+
+画像異常検知の最初の実験用としては、`MVTec AD` と並んで `VisA` が有力です。
+
+- 工業系の異常検知データセット
+- image-level / pixel-level のラベルあり
+- `WinCLIP`, `PaDiM`, `PatchCore` などを比較しやすい
+
+全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_visa.py
+```
+
+明示的に dataset 部分だけ指定する場合:
+
+```bash
+uv run python src/manage_datasets/download_visa.py --parts dataset
 ```
 
 ## Oxford-IIIT Pet
@@ -60,6 +81,21 @@ uv run python src/manage_datasets/download_coco.py --parts val annotations
 ```
 ```bash
 uv run python src/manage_datasets/download_coco.py --parts test image_info_test
+```
+
+## DTD (Describable Textures Dataset)
+
+画像異常検知の tuning における合成異常生成（SWSA）のテクスチャソースとして使います。
+anomalib の `PerlinAnomalyGenerator` が内部で参照します。
+
+- 47 テクスチャカテゴリ × 120 枚 = 5,640 枚
+- ライセンス: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 出典: https://www.robots.ox.ac.uk/~vgg/data/dtd/
+
+全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_dtd.py
 ```
 
 ## データセット削除
