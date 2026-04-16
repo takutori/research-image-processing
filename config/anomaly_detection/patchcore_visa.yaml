@@ -1,0 +1,24 @@
+experiment_name: patchcore_visa
+dataset_root: /workspace/data/visa
+tuning_mode: grid
+categories:
+  - candle
+
+model:
+  backbone: wide_resnet50_2
+  layers: [layer2, layer3]
+  pre_trained: true
+  coreset_sampling_ratio: 0.1
+  num_neighbors: 9
+
+train:
+  image_size: 224
+  batch_size: 32
+  num_workers: 12
+  val_split_ratio: 0.2
+  seed: 42
+
+grid:
+  backbones: [wide_resnet50_2, resnet18]
+  image_sizes: [224, 320]
+  coreset_sampling_ratios: [0.1, 0.01]

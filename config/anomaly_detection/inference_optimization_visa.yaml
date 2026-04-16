@@ -1,0 +1,36 @@
+experiment_name: inference_optimization_visa
+dataset_root: /workspace/data/visa
+output_dir: /workspace/checkpoints/anomaly_detection/inference_optimization/visa
+
+models:
+  - padim
+  - patchcore
+  - fastflow
+  - winclip_zeroshot
+
+variants:
+  - baseline_eager_fp32
+  - eager_amp_fp16
+  - torch_compile_fp32
+  - torch_compile_amp_fp16
+  - onnxruntime_cuda_fp32
+  - onnxruntime_tensorrt_fp32
+  - onnxruntime_tensorrt_fp16
+
+benchmark:
+  warmup_runs: 1
+  repeat_runs: 5
+  include_pixel_metrics: true
+  save_predictions: true
+  torch_compile_mode: reduce-overhead
+
+artifacts:
+  padim_summary: /workspace/checkpoints/anomaly_detection/padim/padim_visa/experiment_summary.json
+  patchcore_summary: /workspace/checkpoints/anomaly_detection/patchcore/patchcore_visa/experiment_summary.json
+  fastflow_summary: /workspace/checkpoints/anomaly_detection/fastflow/fastflow_visa/experiment_summary.json
+  winclip_zeroshot_summary: /workspace/checkpoints/anomaly_detection/winclip_zeroshot/visa/experiment_summary.json
+
+runtime:
+  device: cuda
+  categories:
+    - candle

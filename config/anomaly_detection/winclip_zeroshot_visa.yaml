@@ -1,0 +1,11 @@
+experiment_name: winclip_zeroshot_visa
+dataset_root: /workspace/data/visa
+output_dir: /workspace/checkpoints/anomaly_detection/winclip_zeroshot/visa
+
+model:
+  scales: [2, 3]
+
+test:
+  batch_size: 8
+  num_workers: 0
+  seed: 42
