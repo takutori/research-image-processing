@@ -1,0 +1,11 @@
+experiment_name: owlv2_coco
+dataset_root: /workspace/data/coco
+output_dir: /workspace/checkpoints/object_detection/owlv2/owlv2_coco
+
+test:
+  model_name: google/owlv2-base-patch16-ensemble
+  batch_size: 4
+  num_workers: 0
+  score_threshold: 0.1
+  max_images: null
+  device: cuda

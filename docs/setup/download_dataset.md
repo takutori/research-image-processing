@@ -98,6 +98,20 @@ anomalib の `PerlinAnomalyGenerator` が内部で参照します。
 uv run python src/manage_datasets/download_dtd.py
 ```
 
+## COCO 2017 — YOLO11 用セットアップ
+
+アノテーションダウンロード後、YOLO11 で学習する前に一度だけ実行します。
+
+```bash
+uv run python src/manage_datasets/setup_coco_yolo.py
+```
+
+実行内容:
+- `coco/images/train2017` → `coco/train2017` のシンボリックリンク作成
+- `coco/images/val2017` → `coco/val2017` のシンボリックリンク作成
+- COCO JSON → YOLO 形式 `.txt` ラベルの変換 (`coco/labels/train2017/`, `coco/labels/val2017/`)
+- `config/object_detection/coco_dataset.yaml` の `train` / `val` パスを更新
+
 ## データセット削除
 
 ```bash

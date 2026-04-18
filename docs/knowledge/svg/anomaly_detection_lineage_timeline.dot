@@ -1,0 +1,61 @@
+digraph AnomalyDetectionLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="画像異常検知モデルの系譜（時系列試作）", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year2017 [label="2017", shape=plaintext];
+  Year2018 [label="2018", shape=plaintext];
+  Year2019 [label="2019", shape=plaintext];
+  Year2020 [label="2020", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+
+  Year2017 -> Year2018 -> Year2019 -> Year2020 -> Year2021 -> Year2022 -> Year2023 [style=invis, weight=100];
+
+  { rank=same; Year2017; AE; GANomaly; }
+  { rank=same; Year2018; SPADE; }
+  { rank=same; Year2019; PaDiM; STFPM; }
+  { rank=same; Year2020; PatchCore; RD4AD; }
+  { rank=same; Year2021; CFlow; }
+  { rank=same; Year2022; FastFlow; CLIPAD; }
+  { rank=same; Year2023; WinCLIP; }
+
+  AE [label="AutoEncoder 系", fillcolor="#e2e8f0"];
+  GANomaly [fillcolor="#dbeafe"];
+
+  SPADE [fillcolor="#bfdbfe"];
+  PaDiM [fillcolor="#93c5fd"];
+  PatchCore [fillcolor="#60a5fa"];
+
+  STFPM [fillcolor="#fecaca"];
+  RD4AD [fillcolor="#fca5a5"];
+
+  CFlow [label="C-Flow", fillcolor="#fde68a"];
+  FastFlow [fillcolor="#fbbf24"];
+
+  CLIPAD [label="CLIP 系 zero-shot AD", fillcolor="#bbf7d0"];
+  WinCLIP [fillcolor="#4ade80"];
+
+  PretrainFeat [label="事前学習特徴活用", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  VLM [label="CLIP / VLM", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  { rank=same; Year2018; PretrainFeat; }
+  { rank=same; Year2022; VLM; }
+
+  AE -> GANomaly [label="再構成誤差だけでは弱い問題を解決"];
+
+  PretrainFeat -> SPADE [label="再構成依存の弱さを解決"];
+  SPADE -> PaDiM [label="特徴分布を明示的に扱えない問題を解決"];
+  PaDiM -> PatchCore [label="局所最近傍異常の捉えにくさを解決"];
+
+  PretrainFeat -> STFPM [label="memory bank を持たない比較方法を解決"];
+  STFPM -> RD4AD [label="局所再現の弱さを解決"];
+
+  PretrainFeat -> CFlow [label="距離ベース以外の密度推定を解決"];
+  CFlow -> FastFlow [label="flow 系の速度と実装負荷を改善"];
+
+  VLM -> CLIPAD [label="学習なしで意味的異常を扱えない問題を解決"];
+  CLIPAD -> WinCLIP [label="局所異常の検出力不足を解決"];
+}

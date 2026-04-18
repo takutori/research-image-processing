@@ -121,20 +121,24 @@ API 系:
 
 主要モデル:
 
-| モデル | 主な位置づけ |
-| --- | --- |
-| YOLO11 | 学習あり |
-| RTMDet | 学習あり |
-| Faster R-CNN | 学習あり |
-| RetinaNet | 学習あり |
-| Grounding DINO | zero-shot / few-shot |
-| OWL-ViT | zero-shot / few-shot |
-| OWLv2 | zero-shot / few-shot |
-| GLIP | zero-shot / few-shot |
-| Florence-2 | zero-shot / few-shot |
-| Detic | few-shot / open-vocabulary |
-| YOLO-World | zero-shot / few-shot |
-| Grounded-SAM 系パイプライン | zero-shot / few-shot |
+| カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
+| --- | --- | --- | --- | --- |
+| two-stage anchor-based | legacy | Faster R-CNN | 学習あり | two-stage の教科書モデル。精度は高いが遅い。理論理解に有用 |
+| one-stage anchor-based | legacy | RetinaNet | 学習あり | focal loss 提案元。one-stage と class imbalance の基礎理解に使う |
+| one-stage anchor-free | current | YOLOv8 | 学習あり | ultralytics エコシステムの現実務標準。まず置く基準線 |
+| one-stage anchor-free | frontier | YOLO11 | 学習あり | ultralytics 最新版。YOLOv8 後継として supervised 側の本命 |
+| one-stage anchor-free | current | RTMDet | 学習あり | mmdetection 系。軽量高速で実務向き。YOLO との比較に有用 |
+| Transformer-based | current | DETR | 学習あり | end-to-end Transformer 検出の起点。anchor 不要の基礎理解に使う |
+| Transformer-based | frontier | DINO (IDEA-Research) | 学習あり | DETR 系の精度最前線。deformable attention で小物体にも強い |
+| Transformer-based | frontier | RT-DETR v2 | 学習あり | リアルタイム DETR。速度と精度の両立で YOLO 系と比較価値が高い |
+| open-vocabulary / zero-shot | current | GLIP | zero-shot / few-shot | grounding 系の先駆け。Grounding DINO の前世代として理論把握に有用 |
+| open-vocabulary / zero-shot | current | OWL-ViT | zero-shot / few-shot | Google 製 open-vocabulary 検出の基礎モデル |
+| open-vocabulary / zero-shot | frontier | OWLv2 | zero-shot / few-shot | OWL-ViT の強化版。精度大幅向上で zero-shot 側の有力候補 |
+| open-vocabulary / zero-shot | frontier | Grounding DINO | zero-shot / few-shot | テキストプロンプト検出の現実務本命。zero-shot 側でまず試す |
+| open-vocabulary / zero-shot | frontier | YOLO-World | zero-shot / few-shot | YOLO 系の速度で open-vocabulary を実現。実務バランス候補 |
+| open-vocabulary / few-shot | current | Detic | few-shot / open-vocabulary | image-level ラベルで語彙を大幅拡張。open-vocabulary 寄りの手法 |
+| multi-modal VLM | frontier | Florence-2 | zero-shot / few-shot | 多用途 VLM として検出も可。プロンプト次第で柔軟に使える |
+| composite pipeline | frontier | Grounded-SAM 系パイプライン | zero-shot / few-shot | Grounding DINO + SAM の連結。検出→分割まで一貫して扱える |
 
 成果物:
 - COCO 形式変換ツール

@@ -22,6 +22,8 @@ dependencies = [
     "pandas>=2.2.3",
     "pillow>=11.2.1",
     "pycocotools>=2.0.8",
+    "ultralytics>=8.3.0",
+    "clip @ git+https://github.com/ultralytics/CLIP.git",
     "pyyaml>=6.0.2",
     "scikit-image>=0.25.2",
     "scikit-learn>=1.6.1",
