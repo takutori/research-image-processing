@@ -1,0 +1,62 @@
+digraph SegmentationLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="セグメンテーションモデルの系譜", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year2015 [label="2015", shape=plaintext];
+  Year2017 [label="2017", shape=plaintext];
+  Year2018 [label="2018", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+  Year2024 [label="2024", shape=plaintext];
+
+  Year2015 -> Year2017 -> Year2018 -> Year2021 -> Year2022 -> Year2023 -> Year2024 [style=invis, weight=100];
+
+  { rank=same; Year2015; FCN; UNet; }
+  { rank=same; Year2017; MaskRCNN; }
+  { rank=same; Year2018; DeepLabV3Plus; }
+  { rank=same; Year2021; SegFormer; }
+  { rank=same; Year2022; Mask2Former; OneFormer; CLIPSeg; }
+  { rank=same; Year2023; SAM; MobileSAM; SEEM; GroundedSAM; }
+  { rank=same; Year2024; SAM2; }
+
+  FCN [label="FCN", fillcolor="#dbeafe"];
+  UNet [label="U-Net", fillcolor="#93c5fd"];
+  DeepLabV3Plus [label="DeepLabv3+", fillcolor="#60a5fa"];
+  SegFormer [label="SegFormer", fillcolor="#3b82f6"];
+  MaskRCNN [label="Mask R-CNN", fillcolor="#fde68a"];
+  Mask2Former [label="Mask2Former", fillcolor="#fbbf24"];
+  OneFormer [label="OneFormer", fillcolor="#f59e0b"];
+  CLIPSeg [label="CLIPSeg", fillcolor="#bbf7d0"];
+  SAM [label="SAM", fillcolor="#86efac"];
+  MobileSAM [label="MobileSAM", fillcolor="#4ade80"];
+  SEEM [label="SEEM", fillcolor="#22c55e"];
+  GroundedSAM [label="Grounded-SAM", fillcolor="#16a34a"];
+  SAM2 [label="SAM 2", fillcolor="#15803d"];
+
+  SemanticOrigin [label="Semantic Seg\n(pixel classification)", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  InstanceOrigin [label="Instance Seg\n(object-level mask)", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  VisionLanguage [label="CLIP / Vision-Language", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+
+  { rank=same; Year2015; SemanticOrigin; InstanceOrigin; }
+  { rank=same; Year2022; VisionLanguage; }
+
+  SemanticOrigin -> FCN [label="全結合層を conv に置換して密予測を解決"];
+  FCN -> UNet [label="細部情報が失われる問題を解決"];
+  UNet -> DeepLabV3Plus [label="受容野の狭さと境界精度を解決"];
+  DeepLabV3Plus -> SegFormer [label="CNN の局所性の限界を Transformer で解決"];
+
+  InstanceOrigin -> MaskRCNN [label="box だけで領域を扱えない問題を解決"];
+  MaskRCNN -> Mask2Former [label="タスクごとに異なるアーキテクチャが必要な問題を解決"];
+  Mask2Former -> OneFormer [label="タスク切り替えに別モデルが必要な問題を解決"];
+
+  VisionLanguage -> CLIPSeg [label="テキストで mask を生成できない問題を解決"];
+  CLIPSeg -> SEEM [label="単一プロンプト種別に縛られる問題を解決"];
+  SEEM -> SAM [label="任意物体を promptable に分割できない問題を解決"];
+  SAM -> MobileSAM [label="エッジ環境で動かせない問題を解決"];
+  SAM -> GroundedSAM [label="テキストから自動で mask まで繋げられない問題を解決"];
+  SAM -> SAM2 [label="静止画限定・精度上限の問題を解決"];
+}

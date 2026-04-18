@@ -14,6 +14,8 @@ services:
       UV_NO_SYNC: "1"
     ports:
       - "8888:8888"
+      - "8080:8080"
+      - "8003:8003"
     volumes:
       - .:/workspace
       - ${HOST_DATA_DIR:?HOST_DATA_DIR must point to a host directory for datasets}:/workspace/data
