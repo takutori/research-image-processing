@@ -258,4 +258,5 @@ API 系:
 - flip で壊れない keypoint pipeline
 - occlusion を含む評価レポート
 - 単人物と複数人物の比較
+
 - detector + pose の少数データ運用メモ
