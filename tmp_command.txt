@@ -1,0 +1,11 @@
+# segmentation smoke run
+
+uv run python src/segmentation/yolo11_seg/test.py --config config/segmentation/yolo11_seg_coco_smoke.yaml
+uv run python src/segmentation/sam2/test.py --config config/segmentation/sam2_coco_smoke.yaml
+uv run python src/segmentation/grounded_sam/test.py --config config/segmentation/grounded_sam_coco_smoke.yaml
+
+# segmentation full run
+
+uv run python src/segmentation/yolo11_seg/test.py --config config/segmentation/yolo11_seg_coco.yaml
+uv run python src/segmentation/sam2/test.py --config config/segmentation/sam2_coco.yaml
+uv run python src/segmentation/grounded_sam/test.py --config config/segmentation/grounded_sam_coco.yaml

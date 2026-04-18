@@ -159,26 +159,71 @@ API 系:
 - patch 切り出し
 - ignore index
 - class remap
+- semantic / instance / panoptic の違いと使い分け
+- promptable segmentation の実務ユースケース
+- zero-shot セグメンテーションとアノテーションコスト削減
 
 主要モデル:
 
-| モデル | 主な位置づけ |
-| --- | --- |
-| U-Net | 学習あり |
-| DeepLabv3+ | 学習あり |
-| SegFormer | 学習あり |
-| Mask R-CNN | 学習あり |
-| SAM 2 | zero-shot / few-shot |
-| MobileSAM | zero-shot / few-shot |
-| Grounded-SAM | zero-shot / few-shot |
-| SEEM | zero-shot / few-shot |
-| OneFormer | 学習あり |
-| CLIPSeg | zero-shot / few-shot |
-| Florence-2 | zero-shot / few-shot |
+| カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
+| --- | --- | --- | --- | --- |
+| semantic encoder-decoder CNN | legacy | U-Net | 学習あり | semantic / 医療系の教科書モデル。encoder-decoder 構造の基礎理解に使う |
+| semantic encoder-decoder CNN | current | DeepLabv3+ | 学習あり | atrous conv と ASPP の理解に有用。CNN 系 semantic seg の基準線 |
+| semantic encoder-decoder Transformer | current | SegFormer | 学習あり | 軽量 Transformer。Mix-FFN と階層エンコーダで速度と精度を両立。実務向き |
+| instance segmentation | current | Mask R-CNN | 学習あり | two-stage instance seg の教科書。Faster R-CNN + mask head の構造理解に有用 |
+| instance segmentation | current | YOLOv8-seg / YOLO11-seg | 学習あり | ultralytics エコシステムで instance seg も one-stage で扱える。実務の現標準候補 |
+| instance segmentation | current | RTMDet-Ins | 学習あり | mmdet 系の軽量 instance seg。YOLO 系との速度・精度比較に有用 |
+| unified (semantic / instance / panoptic) | frontier | Mask2Former | 学習あり | masked attention で全セグタスクを統一。精度最前線。supervised 側の本命 |
+| unified (semantic / instance / panoptic) | frontier | OneFormer | 学習あり | テキスト条件付きクエリで 3 タスクを 1 モデルで扱う。Mask2Former の次に見る価値が高い |
+| promptable zero-shot | current | SAM | zero-shot / few-shot | promptable segmentation の起点。point / box / mask prompt で汎用的に使える |
+| promptable zero-shot | frontier | SAM 2 | zero-shot / few-shot | 動画対応・精度向上版。静止画でも SAM より実務本命 |
+| promptable zero-shot 軽量 | current | MobileSAM | zero-shot / few-shot | SAM のエッジ向け蒸留版。速度優先ユースケースに有用 |
+| open-vocabulary zero-shot | current | CLIPSeg | zero-shot / few-shot | CLIP 特徴をデコードしてテキスト → mask。text-prompted seg の基礎理解に使う |
+| open-vocabulary zero-shot | frontier | SEEM | zero-shot / few-shot | point / text / box / 参照画像など多様なプロンプトを統一。promptable seg の frontier 候補 |
+| composite pipeline | frontier | Grounded-SAM 系パイプライン | zero-shot / few-shot | Grounding DINO + SAM の連結。テキスト → 検出 → mask まで一貫して扱える実務本命 |
+| multi-modal VLM | frontier | Florence-2 | zero-shot / few-shot | 検出・分類・seg を統一 VLM で扱う。プロンプト次第でセグ出力も可 |
+
+セグメンテーションの種類:
+
+**Semantic Segmentation（意味的分割）**
+- ピクセルごとにクラスラベルを付ける
+- 同じクラスの物体は個体を区別しない（犬が2匹いても同じ「犬」ラベル）
+- 出力は画像と同サイズの class index マップ（W × H × 1）
+- 典型的な損失関数: cross entropy loss、dice loss
+- 評価指標: mIoU（mean Intersection over Union）
+- 実務ユースケース: 路面・空・建物などの領域分類、農地判別、医療画像の臓器分割
+
+**Instance Segmentation（インスタンス分割）**
+- 同じクラスでも個体ごとに別マスクとして出力する
+- 物体検出の延長：bbox に加えて各インスタンスのピクセルマスクを出力
+- 出力は各インスタンスのバイナリマスク（個数 × W × H）+ クラスラベル + スコア
+- 背景ピクセルはどのインスタンスにも属さない扱い（stuff 領域は対象外）
+- 評価指標: mask AP（COCO 形式、IoU 閾値ごとの平均）
+- 実務ユースケース: 個体カウント（農業・工場検査）、物体追跡、アノテーション補助
+
+**Panoptic Segmentation（パノプティック分割）**
+- Semantic + Instance を統合した最も情報量の多いタスク
+- 画像内の全ピクセルをカバーする（Semantic は背景も分類、Instance は背景を無視）
+- things（数えられる物体: 人・車・犬）はインスタンス単位で識別
+- stuff（数えられない背景: 空・道路・芝生）はクラス単位で分類
+- 出力は各ピクセルに対して (class_id, instance_id) のペアを持つパノプティックマップ
+- 評価指標: PQ（Panoptic Quality）= SQ（Segmentation Quality）× RQ（Recognition Quality）
+- 実務ユースケース: 自動運転のシーン理解、ロボットナビゲーション
+
+**3タスクの対比まとめ:**
+
+| 観点 | Semantic | Instance | Panoptic |
+| --- | --- | --- | --- |
+| 個体識別 | なし | あり | あり（things のみ） |
+| 背景カバー | あり | なし | あり |
+| 全ピクセルを分類 | ✓ | ✗（背景は無視） | ✓ |
+| 出力形式 | class マップ | マスク × N 個 | (class, instance) ペアマップ |
+| アノテーションコスト | 中 | 高 | 最高 |
+| 代表モデル | SegFormer, DeepLabv3+ | Mask R-CNN, YOLO-seg | Mask2Former, OneFormer |
 
 成果物:
-- semantic segmentation 1本
-- instance segmentation 1本
+- semantic segmentation 1本（Oxford-IIIT Pet trimaps を使った U-Net または SegFormer）
+- instance segmentation 1本（COCO instances を使った Mask R-CNN または YOLO11-seg）
 - SAM 2 を使った半自動アノテーション検証
 - patch と full image の比較
 - promptable segmentation の実務ユースケース整理
