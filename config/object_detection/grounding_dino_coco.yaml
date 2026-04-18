@@ -1,0 +1,13 @@
+experiment_name: grounding_dino_coco
+dataset_root: /workspace/data/coco
+output_dir: /workspace/checkpoints/object_detection/grounding_dino/grounding_dino_coco
+
+test:
+  model_name: IDEA-Research/grounding-dino-base
+  batch_size: 1
+  num_workers: 0
+  box_threshold: 0.3
+  text_threshold: 0.25
+  chunk_size: 20
+  max_images: null
+  device: cuda

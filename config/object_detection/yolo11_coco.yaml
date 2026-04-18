@@ -1,0 +1,23 @@
+experiment_name: yolo11_coco
+dataset_yaml: /workspace/config/object_detection/coco_dataset.yaml
+output_dir: /workspace/checkpoints/object_detection/yolo11/yolo11_coco
+tuning_mode: grid
+
+train:
+  model_name: yolo11s.pt
+  img_size: 640
+  epochs: 10
+  patience: 3
+  batch: 16
+  workers: 8
+  fraction: 1.0
+  device: "0"
+
+grid:
+  model_names: [yolo11n.pt, yolo11s.pt]
+  img_sizes: [640]
+  epochs: 10
+  patience: 3
+  batch: 8
+  workers: 8
+  fraction: 1.0

@@ -1,0 +1,77 @@
+digraph ObjectDetectionLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="物体検出モデルの系譜（時系列試作）", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year2014 [label="2014", shape=plaintext];
+  Year2015 [label="2015", shape=plaintext];
+  Year2016 [label="2016", shape=plaintext];
+  Year2017 [label="2017", shape=plaintext];
+  Year2018 [label="2018", shape=plaintext];
+  Year2020 [label="2020", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+  Year2024 [label="2024", shape=plaintext];
+
+  Year2014 -> Year2015 -> Year2016 -> Year2017 -> Year2018 -> Year2020 -> Year2021 -> Year2022 -> Year2023 -> Year2024 [style=invis, weight=100];
+
+  { rank=same; Year2014; RCNN; }
+  { rank=same; Year2015; FastRCNN; FasterRCNN; YOLOv1; }
+  { rank=same; Year2016; SSD; }
+  { rank=same; Year2017; RetinaNet; }
+  { rank=same; Year2018; MaskRCNN; }
+  { rank=same; Year2020; DETR; }
+  { rank=same; Year2021; CLIP; OWL; }
+  { rank=same; Year2022; GLIP; GroundingDINO; }
+  { rank=same; Year2023; YOLOWorld; OWLv2; }
+  { rank=same; Year2024; YOLO11; }
+
+  RCNN [label="R-CNN", fillcolor="#e2e8f0"];
+  FastRCNN [label="Fast R-CNN", fillcolor="#dbeafe"];
+  FasterRCNN [label="Faster R-CNN", fillcolor="#93c5fd"];
+  MaskRCNN [label="Mask R-CNN", fillcolor="#60a5fa"];
+
+  YOLOv1 [label="YOLO", fillcolor="#fde68a"];
+  SSD [fillcolor="#fcd34d"];
+  RetinaNet [fillcolor="#fbbf24"];
+  YOLO11 [fillcolor="#f59e0b"];
+
+  DETR [fillcolor="#fecaca"];
+
+  CLIP [fillcolor="#bbf7d0"];
+  OWL [label="OWL", fillcolor="#86efac"];
+  OWLv2 [label="OWLv2", fillcolor="#4ade80"];
+  GLIP [fillcolor="#22c55e"];
+  GroundingDINO [label="Grounding DINO", fillcolor="#16a34a"];
+  YOLOWorld [label="YOLO-World", fillcolor="#15803d"];
+
+  RegionProposal [label="Region Proposal", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Transformer [label="Transformer", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  VisionLanguage [label="CLIP / Vision-Language", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  { rank=same; Year2014; RegionProposal; }
+  { rank=same; Year2020; Transformer; }
+  { rank=same; Year2021; VisionLanguage; }
+
+  RegionProposal -> RCNN [label="候補領域を CNN で分類できない問題を解決"];
+  RCNN -> FastRCNN [label="候補ごとの再計算の遅さを解決"];
+  FastRCNN -> FasterRCNN [label="proposal を外部手法に頼る問題を解決"];
+  FasterRCNN -> MaskRCNN [label="検出だけで終わる制約を解決"];
+
+  YOLOv1 -> SSD [label="単一スケール検出の弱さを解決"];
+  SSD -> RetinaNet [label="背景不均衡で学習しづらい問題を解決"];
+  RetinaNet -> YOLO11 [label="実装負荷と速度・精度バランスを改善"];
+
+  Transformer -> DETR [label="anchor と NMS 依存を減らせない問題を解決"];
+
+  VisionLanguage -> CLIP [label="画像とテキストを別空間で扱う問題を解決"];
+  CLIP -> OWL [label="text query で detection できない問題を解決"];
+  OWL -> OWLv2 [label="open-vocabulary 検出性能の不足を解決"];
+  CLIP -> GLIP [label="phrase grounding と detection の分断を解決"];
+  DETR -> GroundingDINO [label="grounding と検出の精度不足を解決"];
+  GLIP -> GroundingDINO [label="zero-shot grounding の汎化不足を解決"];
+  YOLO11 -> YOLOWorld [label="YOLO 系で open-vocabulary を扱えない問題を解決"];
+  VisionLanguage -> YOLOWorld [label="text-conditioned detection を軽量系へ持ち込めない問題を解決"];
+}

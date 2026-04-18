@@ -1,0 +1,23 @@
+experiment_name: yolo11_coco_smoke
+dataset_yaml: /workspace/config/object_detection/coco_dataset.yaml
+output_dir: /workspace/checkpoints/object_detection/yolo11/yolo11_coco_smoke
+tuning_mode: none
+
+train:
+  model_name: yolo11n.pt
+  img_size: 640
+  epochs: 1
+  patience: 5
+  batch: 8
+  workers: 4
+  fraction: 0.002
+  device: "0"
+
+grid:
+  model_names: [yolo11n.pt]
+  img_sizes: [640]
+  epochs: 1
+  patience: 5
+  batch: 8
+  workers: 4
+  fraction: 0.002
