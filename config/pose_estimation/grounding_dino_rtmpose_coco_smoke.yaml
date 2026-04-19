@@ -1,0 +1,13 @@
+experiment_name: grounding_dino_rtmpose_coco_smoke
+dataset_root: /workspace/data/coco_pose_smoke
+output_dir: /workspace/checkpoints/pose_estimation/grounding_dino_rtmpose/grounding_dino_rtmpose_coco_smoke
+
+test:
+  detector_model: IDEA-Research/grounding-dino-tiny
+  rtmpose_config_path: body_2d_keypoint/rtmpose/coco/rtmpose-s_8xb256-420e_coco-256x192.py
+  rtmpose_checkpoint: https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-s_simcc-coco_pt-aic-coco_420e-256x192-8edcf0d7_20230127.pth
+  box_threshold: 0.3
+  text_threshold: 0.25
+  crop_margin: 0.0
+  max_images: 32
+  device: cuda:0

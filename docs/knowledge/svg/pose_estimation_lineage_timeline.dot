@@ -1,0 +1,71 @@
+digraph PoseEstimationLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="姿勢推定モデルの系譜", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year2016 [label="2016", shape=plaintext];
+  Year2018 [label="2018", shape=plaintext];
+  Year2019 [label="2019", shape=plaintext];
+  Year2020 [label="2020", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+  Year2024 [label="2024", shape=plaintext];
+
+  Year2016 -> Year2018 -> Year2019 -> Year2020 -> Year2021 -> Year2022 -> Year2023 -> Year2024 [style=invis, weight=100];
+
+  { rank=same; Year2016; OpenPose; }
+  { rank=same; Year2018; SimpleBaseline; }
+  { rank=same; Year2019; HRNet; }
+  { rank=same; Year2020; MediaPipePose; }
+  { rank=same; Year2021; MoveNet; }
+  { rank=same; Year2022; ViTPose; }
+  { rank=same; Year2023; RTMPose; YOLOv8Pose; GroundingPose; }
+  { rank=same; Year2024; YOLO11Pose; DWPose; }
+
+  OpenPose [label="OpenPose", fillcolor="#dbeafe"];
+  SimpleBaseline [label="SimpleBaseline", fillcolor="#93c5fd"];
+  HRNet [label="HRNet", fillcolor="#60a5fa"];
+
+  MediaPipePose [label="MediaPipe Pose", fillcolor="#fde68a"];
+  MoveNet [label="MoveNet", fillcolor="#fcd34d"];
+  YOLOv8Pose [label="YOLOv8-pose", fillcolor="#fbbf24"];
+  YOLO11Pose [label="YOLO11-pose", fillcolor="#f59e0b"];
+  RTMPose [label="RTMPose", fillcolor="#fb923c"];
+  DWPose [label="DWPose", fillcolor="#ea580c"];
+
+  ViTPose [label="ViTPose", fillcolor="#fecaca"];
+
+  GroundingPose [label="Grounding DINO\n+ pose estimator", fillcolor="#86efac"];
+
+  BottomUp [label="Bottom-up\n(multi-person assembly)", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  TopDown [label="Top-down\n(person crop + keypoints)", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Realtime [label="Real-time / Lightweight", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Transformer [label="Transformer backbone", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  OpenWorld [label="Open-world detector", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+
+  { rank=same; Year2016; BottomUp; }
+  { rank=same; Year2018; TopDown; }
+  { rank=same; Year2020; Realtime; }
+  { rank=same; Year2022; Transformer; }
+  { rank=same; Year2023; OpenWorld; }
+
+  BottomUp -> OpenPose [label="人物ごとの関節接続を同時に解けない問題を解決"];
+
+  TopDown -> SimpleBaseline [label="person crop 後の標準 pose head を整理"];
+  SimpleBaseline -> HRNet [label="高解像度特徴を失う問題を解決"];
+  HRNet -> RTMPose [label="精度を保ちつつ速度が出にくい問題を改善"];
+
+  Realtime -> MediaPipePose [label="すぐ動く SDK と landmark 推論を提供"];
+  Realtime -> MoveNet [label="モバイルで低遅延に動かしにくい問題を改善"];
+  MoveNet -> YOLOv8Pose [label="軽量推論を train / test 一体で扱いにくい問題を改善"];
+  YOLOv8Pose -> YOLO11Pose [label="one-stage pose の速度・精度を改善"];
+  RTMPose -> DWPose [label="下流利用も意識した pose quality を改善"];
+
+  Transformer -> ViTPose [label="CNN backbone 依存で精度上限が見えやすい問題を改善"];
+
+  OpenWorld -> GroundingPose [label="人物検出カテゴリを固定したくない問題を解決"];
+  RTMPose -> GroundingPose [label="top-down pose を zero-shot detector と繋げる"];
+}
