@@ -14,6 +14,7 @@ Docker コンテナ内では `/workspace/data` に mount されます。
 ```text
 research-image-processing-data/
   coco/
+  dancetrack/
   oxford_iiit_pet/
   visa/
   penn_fudan_pedestrian/
@@ -96,6 +97,35 @@ anomalib の `PerlinAnomalyGenerator` が内部で参照します。
 
 ```bash
 uv run python src/manage_datasets/download_dtd.py
+```
+
+## DanceTrack
+
+tracking の最初の実験用としては、`DanceTrack` がかなり扱いやすいです。
+
+- multi-object tracking 用の代表 benchmark
+- 見た目が似た人物が多く、motion ベースの tracking の難しさが出やすい
+- 公式 repo でも Hugging Face 配布を案内している
+- データセット自体は non-commercial research purpose only
+
+全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py
+```
+
+必要な split だけ取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts train
+```
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts val
+```
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts test
 ```
 
 ## COCO 2017 — YOLO11 用セットアップ
