@@ -1,0 +1,32 @@
+experiment_name: oxford_pet_smoke
+model_name: convnextv2_tiny.fcmae_ft_in22k_in1k
+dataset_root: /workspace/data/oxford_iiit_pet
+output_dir: /workspace/checkpoints/classification/convnext_v2/oxford_pet_smoke
+tuning_mode: none
+
+train:
+  image_size: 224
+  eval_resize_size: 256
+  batch_size: 8
+  num_workers: 0
+  num_epochs: 1
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  valid_size: 0.2
+  random_state: 42
+  use_amp: true
+
+grid:
+  learning_rates: [0.0001]
+  weight_decays: [0.0001]
+  batch_sizes: [8]
+  image_sizes: [224]
+  num_epochs: 1
+  num_workers: 0
+
+optuna:
+  n_trials: 1
+  num_epochs: 1
+  num_workers: 0
+  batch_size_candidates: [8]
+  image_size_candidates: [224]

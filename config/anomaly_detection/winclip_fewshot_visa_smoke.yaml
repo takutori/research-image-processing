@@ -1,0 +1,17 @@
+experiment_name: winclip_fewshot_visa_smoke
+dataset_root: /workspace/data/visa_smoke
+output_dir: /workspace/checkpoints/anomaly_detection/winclip_fewshot/visa_smoke
+categories: [candle]
+
+model:
+  scales: [2, 3]
+  k_shot: 4
+
+train:
+  batch_size: 4
+  num_workers: 0
+  fewshot_split_csv: 2cls_fewshot.csv
+
+test:
+  batch_size: 4
+  num_workers: 0

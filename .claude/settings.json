@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "Bash(ls*)",
+      "Bash(pwd)",
+      "Bash(stat *)",
+      "Bash(find *)",
+      "Bash(rg *)",
+      "Bash(sed *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(gh auth status*)",
+      "Bash(gh repo view*)",
+      "Bash(gh pr status*)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr create*)",
+      "Bash(gh issue view*)",
+      "Bash(python -m pytest*)",
+      "Bash(python -m compileall*)",
+      "Bash(docker exec*)",
+      "Bash(docker ps*)"
+    ],
+    "deny": [
+      "Bash(git reset*)",
+      "Bash(git clean*)",
+      "Bash(git rebase*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(gh repo delete*)",
+      "Bash(gh pr merge*)",
+      "Bash(gh pr close*)",
+      "Bash(gh issue close*)"
+    ]
+  }
+}

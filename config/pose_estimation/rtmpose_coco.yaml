@@ -1,0 +1,30 @@
+experiment_name: rtmpose_coco
+dataset_root: /workspace/data/coco
+output_dir: /workspace/checkpoints/pose_estimation/rtmpose/rtmpose_coco
+tuning_mode: grid
+
+train:
+  config_path: body_2d_keypoint/rtmpose/coco/rtmpose-s_8xb256-420e_coco-256x192.py
+  checkpoint: https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-s_simcc-coco_pt-aic-coco_420e-256x192-8edcf0d7_20230127.pth
+  learning_rate: 0.004
+  max_epochs: 20
+  val_interval: 5
+  device: cuda:0
+
+grid:
+  config_paths:
+    - body_2d_keypoint/rtmpose/coco/rtmpose-s_8xb256-420e_coco-256x192.py
+    - body_2d_keypoint/rtmpose/coco/rtmpose-m_8xb256-420e_coco-256x192.py
+  learning_rates: [0.002, 0.004]
+  max_epochs: 20
+
+optuna:
+  n_trials: 8
+  learning_rate_low: 0.0005
+  learning_rate_high: 0.005
+  max_epochs: 20
+
+test:
+  bbox_file: null
+  max_images: null
+  device: cuda:0

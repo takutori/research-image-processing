@@ -1,0 +1,12 @@
+experiment_name: yolo11_seg_coco
+dataset_root: /workspace/data/coco
+output_dir: /workspace/checkpoints/segmentation/yolo11_seg/yolo11_seg_coco
+
+test:
+  model_name: yolo11s-seg.pt
+  img_size: 640
+  batch: 8
+  device: "0"
+  conf: 0.001
+  iou: 0.6
+  max_images: 500

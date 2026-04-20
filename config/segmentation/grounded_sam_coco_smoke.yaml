@@ -1,0 +1,13 @@
+experiment_name: grounded_sam_coco_smoke
+dataset_root: /workspace/data/coco
+output_dir: /workspace/checkpoints/segmentation/grounded_sam/grounded_sam_coco_smoke
+
+test:
+  detector_model: IDEA-Research/grounding-dino-tiny
+  sam2_checkpoint: /workspace/checkpoints/segmentation/sam2/sam2.1_hiera_large.pt
+  sam2_config: configs/sam2.1/sam2.1_hiera_l.yaml
+  device: cuda
+  box_threshold: 0.3
+  text_threshold: 0.25
+  chunk_size: 20
+  max_images: 100

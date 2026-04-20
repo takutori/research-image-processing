@@ -1,0 +1,52 @@
+digraph TrackingLineageTimeline {
+  rankdir=LR;
+  splines=polyline;
+  graph [fontname="Helvetica", fontsize=12, labelloc="t", label="tracking モデルの系譜", nodesep=0.4, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="#f8fafc", color="#334155"];
+  edge [fontname="Helvetica", fontsize=9, color="#475569"];
+
+  Year2016 [label="2016", shape=plaintext];
+  Year2017 [label="2017", shape=plaintext];
+  Year2021 [label="2021", shape=plaintext];
+  Year2022 [label="2022", shape=plaintext];
+  Year2023 [label="2023", shape=plaintext];
+  Year2024 [label="2024", shape=plaintext];
+
+  Year2016 -> Year2017 -> Year2021 -> Year2022 -> Year2023 -> Year2024 [style=invis, weight=100];
+
+  { rank=same; Year2016; SORT; }
+  { rank=same; Year2017; DeepSORT; }
+  { rank=same; Year2021; ByteTrack; }
+  { rank=same; Year2022; BoTSORT; OCSORT; }
+  { rank=same; Year2024; YOLOTrack; }
+
+  SORT [label="SORT", fillcolor="#dbeafe"];
+  DeepSORT [label="DeepSORT", fillcolor="#93c5fd"];
+  ByteTrack [label="ByteTrack", fillcolor="#60a5fa"];
+  BoTSORT [label="BoT-SORT", fillcolor="#3b82f6"];
+  OCSORT [label="OC-SORT", fillcolor="#2563eb"];
+
+  YOLOTrack [label="YOLO Track\n(detector + tracker wrapper)", fillcolor="#fde68a"];
+
+  Detection [label="Tracking-by-detection", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Appearance [label="Appearance / ReID", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Motion [label="Motion robustness", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+  Wrapper [label="Usable pipeline", shape=box, style="rounded,filled", fillcolor="#e2e8f0"];
+
+  { rank=same; Year2016; Detection; }
+  { rank=same; Year2017; Appearance; }
+  { rank=same; Year2022; Motion; }
+  { rank=same; Year2024; Wrapper; }
+
+  Detection -> SORT [label="detector と tracker を分離して扱う基礎を整理"];
+  SORT -> DeepSORT [label="motion だけだと交差や再登場で崩れる問題を改善"];
+  DeepSORT -> ByteTrack [label="低 score 検出を早く捨てすぎる問題を改善"];
+  DeepSORT -> BoTSORT [label="ReID と camera motion をより強く使いたい問題を改善"];
+  SORT -> OCSORT [label="観測ベースで motion をより頑健に扱いたい問題を改善"];
+  ByteTrack -> BoTSORT [label="強い基準線に ReID を足して ID switch を減らす"];
+  Appearance -> DeepSORT [label="appearance feature を導入"];
+  Motion -> OCSORT [label="motion モデルを改善"];
+  Wrapper -> YOLOTrack [label="detector と tracker を一体の実行入口で扱いやすくする"];
+  ByteTrack -> YOLOTrack [label="built-in tracker として統合しやすい"];
+  BoTSORT -> YOLOTrack [label="built-in tracker として統合しやすい"];
+}
