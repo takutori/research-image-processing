@@ -14,6 +14,7 @@ Docker コンテナ内では `/workspace/data` に mount されます。
 ```text
 research-image-processing-data/
   coco/
+  dancetrack/
   oxford_iiit_pet/
   visa/
   penn_fudan_pedestrian/
@@ -98,6 +99,35 @@ anomalib の `PerlinAnomalyGenerator` が内部で参照します。
 uv run python src/manage_datasets/download_dtd.py
 ```
 
+## DanceTrack
+
+tracking の最初の実験用としては、`DanceTrack` がかなり扱いやすいです。
+
+- multi-object tracking 用の代表 benchmark
+- 見た目が似た人物が多く、motion ベースの tracking の難しさが出やすい
+- 公式 repo でも Hugging Face 配布を案内している
+- データセット自体は non-commercial research purpose only
+
+全量を取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py
+```
+
+必要な split だけ取得する場合:
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts train
+```
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts val
+```
+
+```bash
+uv run python src/manage_datasets/download_dancetrack.py --parts test
+```
+
 ## COCO 2017 — YOLO11 用セットアップ
 
 アノテーションダウンロード後、YOLO11 で学習する前に一度だけ実行します。
@@ -111,6 +141,39 @@ uv run python src/manage_datasets/setup_coco_yolo.py
 - `coco/images/val2017` → `coco/val2017` のシンボリックリンク作成
 - COCO JSON → YOLO 形式 `.txt` ラベルの変換 (`coco/labels/train2017/`, `coco/labels/val2017/`)
 - `config/object_detection/coco_dataset.yaml` の `train` / `val` パスを更新
+
+## COCO 2017 — YOLO11-pose 用セットアップ
+
+person keypoints を使う `YOLO11-pose` は、検出用 `coco/` とは別に専用 root を作ります。
+
+```bash
+uv run python src/manage_datasets/setup_coco_yolo_pose.py
+```
+
+実行内容:
+- `coco/images/train2017` / `val2017` から `coco_pose/images/train2017` / `val2017` を作成
+- `person_keypoints_train2017.json` / `val2017.json` から YOLO pose 形式 `.txt` を生成
+- `coco_pose/annotations/` に必要な JSON への symlink を作成
+- `config/pose_estimation/coco_pose_dataset.yaml` を更新
+
+## COCO 2017 — pose smoke subset
+
+smoke では短時間で実装確認できるよう、小規模 subset を別 root に作ります。
+
+```bash
+uv run python src/manage_datasets/create_coco_pose_smoke.py
+```
+
+実行内容:
+- `coco_pose_smoke/images/train2017` / `val2017` に subset 画像の symlink を作成
+- `coco_pose_smoke/annotations/` に person keypoints / detection 用 subset JSON を作成
+- `coco_pose_smoke/labels/train2017` / `val2017` に YOLO pose ラベルを生成
+- `smoke_metadata.json` に subset 情報を保存
+
+補足:
+- `RTMPose` を使う場合は、dataset 準備とは別に `mmengine`, `mmcv-lite`, `xtcocotools`, `mmpose` を `uv pip install` で手動セットアップする
+- 詳細な手順は `docs/train_test/pose_estimation.md` を参照
+- 現段階ではスピード優先のため、姿勢推定は `YOLO11-pose` を主線に進める
 
 ## データセット削除
 

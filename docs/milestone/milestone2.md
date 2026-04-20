@@ -42,28 +42,28 @@ API 系:
 
 主要モデル:
 
-| カテゴリ | 世代感 | モデル | 今の見立て |
-| --- | --- | --- | --- |
-| 学習あり | legacy | ResNet | 古典的な基準モデル |
-| 学習あり | current | ConvNeXt | 実務でまだ強い定番 |
-| 学習あり | frontier | ConvNeXt V2 | supervised 側の有力本命 |
-| 学習あり | current | ViT | Transformer 分類の基礎 |
-| 学習あり | frontier | EVA-02 | 学習あり側の最前線候補 |
-| 学習あり | current | `timm` の事前学習モデル | 実装実務の標準入口 |
-| zero-shot / few-shot | current | CLIP | zero-shot の基礎標準 |
-| zero-shot / few-shot | current | OpenCLIP | open 実装の実務本命 |
-| zero-shot / few-shot | current | SigLIP | CLIP 系の強い系譜 |
-| zero-shot / few-shot | frontier | SigLIP 2 | zero-shot 側の最前線候補 |
-| zero-shot / few-shot | current | BLIP-2 | 分類専用ではないが強力 |
-| zero-shot / few-shot | frontier | Florence-2 | 多用途 VLM として有力 |
-| few-shot 寄り | current | DINOv2 | 少量ラベルで強い特徴抽出器 |
-| few-shot | legacy | prototypical networks | few-shot の古典手法 |
-| few-shot 寄り | current | linear probe | 強い backbone の基本比較軸 |
-| few-shot | current | prompt tuning | VLM 適応の基本手段 |
-| few-shot | current | CoOp | CLIP few-shot の定番 |
-| few-shot | current | CoCoOp | unseen class に強い発展形 |
-| few-shot | frontier | Tip-Adapter | training-free 寄りの本命 |
-| few-shot | frontier | Tip-Adapter-F | Tip-Adapter の強化版 |
+| カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
+| --- | --- | --- | --- | --- |
+| CNN classifier | legacy | ResNet | 学習あり / zero-shot | 古典的な基準モデル。pretrained 推論の入口としても使いやすい |
+| CNN classifier | current | ConvNeXt | 学習あり / zero-shot | 実務でまだ強い定番。pretrained をそのまま試す基準線として有用 |
+| CNN classifier | frontier | ConvNeXt V2 | 学習あり / zero-shot | supervised 側の有力本命。pretrained 特徴の強さも確認したい |
+| Transformer classifier | current | ViT | 学習あり / zero-shot | Transformer 分類の基礎。pretrained 推論でも比較しやすい |
+| Transformer classifier | frontier | EVA-02 | 学習あり / zero-shot | 学習あり側の最前線候補。強い pretrained backbone として有力 |
+| pretrained model hub | current | `timm` の事前学習モデル | 学習あり / zero-shot | 実装実務の標準入口。学習前の当たり付けにも向く |
+| vision-language model | current | CLIP | zero-shot / few-shot | zero-shot の基礎標準 |
+| vision-language model | current | OpenCLIP | zero-shot / few-shot | open 実装の実務本命 |
+| vision-language model | current | SigLIP | zero-shot / few-shot | CLIP 系の強い系譜 |
+| vision-language model | frontier | SigLIP 2 | zero-shot / few-shot | zero-shot 側の最前線候補 |
+| multi-modal VLM | current | BLIP-2 | zero-shot / few-shot | 分類専用ではないが強力 |
+| multi-modal VLM | frontier | Florence-2 | zero-shot / few-shot | 多用途 VLM として有力 |
+| self-supervised backbone | current | DINOv2 | few-shot / zero-shot 寄り | 少量ラベルで強い特徴抽出器 |
+| metric-learning few-shot | legacy | prototypical networks | few-shot | few-shot の古典手法 |
+| transfer baseline | current | linear probe | few-shot 寄り | 強い backbone の基本比較軸 |
+| prompt adaptation | current | prompt tuning | few-shot | VLM 適応の基本手段 |
+| prompt adaptation | current | CoOp | few-shot | CLIP few-shot の定番 |
+| prompt adaptation | current | CoCoOp | few-shot | unseen class に強い発展形 |
+| training-free adapter | frontier | Tip-Adapter | few-shot / zero-shot 寄り | training-free 寄りの本命 |
+| adapter refinement | frontier | Tip-Adapter-F | few-shot | Tip-Adapter の強化版 |
 
 成果物:
 - 3種類の分類器比較レポート
@@ -123,14 +123,14 @@ API 系:
 
 | カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
 | --- | --- | --- | --- | --- |
-| two-stage anchor-based | legacy | Faster R-CNN | 学習あり | two-stage の教科書モデル。精度は高いが遅い。理論理解に有用 |
-| one-stage anchor-based | legacy | RetinaNet | 学習あり | focal loss 提案元。one-stage と class imbalance の基礎理解に使う |
-| one-stage anchor-free | current | YOLOv8 | 学習あり | ultralytics エコシステムの現実務標準。まず置く基準線 |
-| one-stage anchor-free | frontier | YOLO11 | 学習あり | ultralytics 最新版。YOLOv8 後継として supervised 側の本命 |
-| one-stage anchor-free | current | RTMDet | 学習あり | mmdetection 系。軽量高速で実務向き。YOLO との比較に有用 |
-| Transformer-based | current | DETR | 学習あり | end-to-end Transformer 検出の起点。anchor 不要の基礎理解に使う |
-| Transformer-based | frontier | DINO (IDEA-Research) | 学習あり | DETR 系の精度最前線。deformable attention で小物体にも強い |
-| Transformer-based | frontier | RT-DETR v2 | 学習あり | リアルタイム DETR。速度と精度の両立で YOLO 系と比較価値が高い |
+| two-stage anchor-based | legacy | Faster R-CNN | 学習あり / zero-shot | two-stage の教科書モデル。精度は高いが遅い。pretrained 推論でも基礎比較に有用 |
+| one-stage anchor-based | legacy | RetinaNet | 学習あり / zero-shot | focal loss 提案元。one-stage と class imbalance の基礎理解に使う |
+| one-stage anchor-free | current | YOLOv8 | 学習あり / zero-shot | ultralytics エコシステムの現実務標準。pretrained でもまず置く基準線 |
+| one-stage anchor-free | frontier | YOLO11 | 学習あり / zero-shot | ultralytics 最新版。YOLOv8 後継として supervised 側の本命で、学習なしでも試しやすい |
+| one-stage anchor-free | current | RTMDet | 学習あり / zero-shot | mmdetection 系。軽量高速で実務向き。YOLO との比較に有用 |
+| Transformer-based | current | DETR | 学習あり / zero-shot | end-to-end Transformer 検出の起点。anchor 不要の基礎理解に使う |
+| Transformer-based | frontier | DINO (IDEA-Research) | 学習あり / zero-shot | DETR 系の精度最前線。deformable attention で小物体にも強い |
+| Transformer-based | frontier | RT-DETR v2 | 学習あり / zero-shot | リアルタイム DETR。速度と精度の両立で YOLO 系と比較価値が高い |
 | open-vocabulary / zero-shot | current | GLIP | zero-shot / few-shot | grounding 系の先駆け。Grounding DINO の前世代として理論把握に有用 |
 | open-vocabulary / zero-shot | current | OWL-ViT | zero-shot / few-shot | Google 製 open-vocabulary 検出の基礎モデル |
 | open-vocabulary / zero-shot | frontier | OWLv2 | zero-shot / few-shot | OWL-ViT の強化版。精度大幅向上で zero-shot 側の有力候補 |
@@ -167,14 +167,14 @@ API 系:
 
 | カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
 | --- | --- | --- | --- | --- |
-| semantic encoder-decoder CNN | legacy | U-Net | 学習あり | semantic / 医療系の教科書モデル。encoder-decoder 構造の基礎理解に使う |
-| semantic encoder-decoder CNN | current | DeepLabv3+ | 学習あり | atrous conv と ASPP の理解に有用。CNN 系 semantic seg の基準線 |
-| semantic encoder-decoder Transformer | current | SegFormer | 学習あり | 軽量 Transformer。Mix-FFN と階層エンコーダで速度と精度を両立。実務向き |
-| instance segmentation | current | Mask R-CNN | 学習あり | two-stage instance seg の教科書。Faster R-CNN + mask head の構造理解に有用 |
-| instance segmentation | current | YOLOv8-seg / YOLO11-seg | 学習あり | ultralytics エコシステムで instance seg も one-stage で扱える。実務の現標準候補 |
-| instance segmentation | current | RTMDet-Ins | 学習あり | mmdet 系の軽量 instance seg。YOLO 系との速度・精度比較に有用 |
-| unified (semantic / instance / panoptic) | frontier | Mask2Former | 学習あり | masked attention で全セグタスクを統一。精度最前線。supervised 側の本命 |
-| unified (semantic / instance / panoptic) | frontier | OneFormer | 学習あり | テキスト条件付きクエリで 3 タスクを 1 モデルで扱う。Mask2Former の次に見る価値が高い |
+| semantic encoder-decoder CNN | legacy | U-Net | 学習あり / zero-shot | semantic / 医療系の教科書モデル。encoder-decoder 構造の基礎理解に使う |
+| semantic encoder-decoder CNN | current | DeepLabv3+ | 学習あり / zero-shot | atrous conv と ASPP の理解に有用。CNN 系 semantic seg の基準線 |
+| semantic encoder-decoder Transformer | current | SegFormer | 学習あり / zero-shot | 軽量 Transformer。Mix-FFN と階層エンコーダで速度と精度を両立。実務向き |
+| instance segmentation | current | Mask R-CNN | 学習あり / zero-shot | two-stage instance seg の教科書。Faster R-CNN + mask head の構造理解に有用 |
+| instance segmentation | current | YOLOv8-seg / YOLO11-seg | 学習あり / zero-shot | ultralytics エコシステムで instance seg も one-stage で扱える。pretrained でも試しやすい |
+| instance segmentation | current | RTMDet-Ins | 学習あり / zero-shot | mmdet 系の軽量 instance seg。YOLO 系との速度・精度比較に有用 |
+| unified (semantic / instance / panoptic) | frontier | Mask2Former | 学習あり / zero-shot | masked attention で全セグタスクを統一。精度最前線。supervised 側の本命 |
+| unified (semantic / instance / panoptic) | frontier | OneFormer | 学習あり / zero-shot | テキスト条件付きクエリで 3 タスクを 1 モデルで扱う。Mask2Former の次に見る価値が高い |
 | promptable zero-shot | current | SAM | zero-shot / few-shot | promptable segmentation の起点。point / box / mask prompt で汎用的に使える |
 | promptable zero-shot | frontier | SAM 2 | zero-shot / few-shot | 動画対応・精度向上版。静止画でも SAM より実務本命 |
 | promptable zero-shot 軽量 | current | MobileSAM | zero-shot / few-shot | SAM のエッジ向け蒸留版。速度優先ユースケースに有用 |
@@ -242,17 +242,22 @@ API 系:
 
 主要モデル:
 
-| モデル | 主な位置づけ |
-| --- | --- |
-| YOLO pose | 学習あり |
-| HRNet | 学習あり |
-| RTMPose | 学習あり |
-| ViTPose | 学習あり |
-| DWPose | 学習あり |
-| OpenPose | 学習あり |
-| Grounding DINO + pose estimator の 2 段パイプライン | few-shot 寄り |
-| SAM / detector を使った person crop 補助 | few-shot 補助 |
-| GPT-4o / Gemini など API 系姿勢理解 | zero-shot API |
+| カテゴリ | 世代感 | モデル | 学習あり / zero-shot / few-shot | 今の見立て |
+| --- | --- | --- | --- | --- |
+| top-down heatmap | legacy | SimpleBaseline / HRNet | 学習あり / zero-shot | heatmap supervision の基礎理解に有用。pretrained 推論でも使えるので精度基準線として置く価値がある |
+| bottom-up PAF | legacy | OpenPose | 学習あり / zero-shot | multi-person pose の古典。PAF ベースの発想を理解するために押さえる。pretrained 推論の入口としても使える |
+| top-down lightweight CNN | current | MoveNet | zero-shot | 軽量高速な姿勢推定の代表。モバイルやリアルタイム用途の主力候補として把握したい |
+| top-down lightweight CNN | current | MediaPipe Pose | zero-shot | すぐ動く実装とリアルタイム用途に強い。アプリ実装寄りの主流候補として重要 |
+| top-down lightweight CNN | current | YOLOv8-pose | 学習あり / zero-shot | ultralytics 系の姿勢推定入口。導入しやすく実装負荷が低く、pretrained でもある程度使える |
+| top-down lightweight CNN | frontier | YOLO11-pose | 学習あり / zero-shot | YOLO pose 系の最新候補。軽量高速で、pretrained 推論でも学習なしの入口として使いやすい |
+| top-down lightweight CNN | frontier | RTMPose | 学習あり / zero-shot | mmpose 系の現実務本命。速度と精度のバランスがよく first choice になりやすく、pretrained 推論でも有力 |
+| top-down Transformer | current | ViTPose | 学習あり / zero-shot | Transformer pose の代表。CNN 系と比較して特徴抽出器の違いを学ぶのに向き、pretrained 推論でも使える |
+| top-down distillation / efficient refinement | frontier | DWPose | 学習あり / zero-shot | openpose editor 系でも採用例が多い有力候補。姿勢品質と downstream 利用の観点で重要 |
+| whole-body / multi-keypoint extension | current | MMPose の COCO-WholeBody 系モデル | 学習あり / zero-shot | body だけでなく hand / face まで含む拡張系。pretrained 推論で案件適用範囲を広げやすい |
+| detector + pose composite pipeline | current | person detector + HRNet / RTMPose の 2 段パイプライン | 学習あり / few-shot 寄り | 実務で最も現実的な構成。人物検出器の差し替えで流用しやすい |
+| open-world detector + pose composite | frontier | Grounding DINO + pose estimator | zero-shot / few-shot | person prompt で人物候補を拾って pose へつなぐ構成。少量データ立ち上げ時に有用 |
+| promptable crop assist | current | SAM / detector を使った person crop 補助 | few-shot 補助 | 厳密な pose 推定器ではないが、crop 精度とアノテーション補助で実務価値がある |
+| foundation-model API | current | GPT-4o / Gemini など API 系姿勢理解 | zero-shot API | 厳密 keypoint 回帰の置き換えにはなりにくいが、PoC や説明生成の調査対象として把握する |
 
 成果物:
 - flip で壊れない keypoint pipeline

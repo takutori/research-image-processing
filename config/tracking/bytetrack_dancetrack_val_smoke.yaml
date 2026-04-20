@@ -1,0 +1,16 @@
+experiment_name: bytetrack_dancetrack_val_smoke
+dataset_root: /workspace/data/dancetrack
+split: val
+output_dir: /workspace/checkpoints/tracking/bytetrack/bytetrack_dancetrack_val_smoke
+
+test:
+  detector_model: yolo11n.pt
+  tracker_name: bytetrack.yaml
+  img_size: 640
+  conf: 0.25
+  iou: 0.7
+  device: "0"
+  sequence_names: null
+  auto_select_shortest_n: 1
+  frame_limit: 180
+  visualization_frame_limit: 180

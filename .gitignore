@@ -44,3 +44,6 @@ mlruns/
 docker-data/
 
 .env
+
+
+*.mp4
